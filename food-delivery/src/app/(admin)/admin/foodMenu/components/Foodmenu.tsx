@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import { Adminappetizer } from "./Appetizer";
 import { Adminsalads } from "./Salads";
 import { Adminbreakfast } from "./Breakfast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Dialog,
@@ -16,37 +16,57 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+export type categoryType = {
+  categoryName: string;
+  _id: string;
+};
 export const Foodmenu = () => {
-  const buttons = [
-    { name: "All Dishes", quantity: 49 },
-    { name: "Appetizers", quantity: 6 },
-    { name: "Salads", quantity: 3 },
-    { name: "Pizzas", quantity: 5 },
-    { name: "Lunch favorites", quantity: 5 },
-    { name: "Main dishes", quantity: 5 },
-    { name: "Fish & Sea foods", quantity: 5 },
-    { name: "Brunch", quantity: 5 },
-    { name: "Side dish", quantity: 5 },
-    { name: "Desserts", quantity: 5 },
-    { name: "Beverages", quantity: 5 },
-  ];
-  const [newCategoryName, setNewCategoryName] = useState(null);
-
+  const [category, setCategory] = useState<categoryType[]>([]);
+  const [newCategoryName, setNewCategoryName] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [categorySuccess, setCategorySuccess] = useState(false);
+  const getCategory = async () => {
+    const response = await axios.get("http://localhost:3001/category");
+    setCategory(response.data.categories);
+  };
+  useEffect(() => {
+    getCategory();
+  }, []);
   const postCategory = async () => {
+    const categoryExists = category.some(
+      (existingCategory) =>
+        existingCategory.categoryName.toLowerCase() ===
+        newCategoryName.toLowerCase()
+    );
+    if (categoryExists) {
+      setErrorMessage("Category ner davhtsaj baina.");
+      return;
+    }
+
+    if (!newCategoryName.trim()) {
+      alert("Category ner oruulna uu!");
+      return;
+    }
     try {
       const response = await axios.post(
-        "http://localhost:3001/food-category/postCategoryasd",
+        "http://localhost:3001/category/create-category",
         {
-          name: newCategoryName,
+          categoryName: newCategoryName,
         }
       );
-      setNewCategoryName(response.data);
-      console.log("Category created", response.data);
+      if (response.status === 200 || response.status === 201) {
+        setCategorySuccess(true);
+      }
+      setCategory((prevCategories) => [
+        ...prevCategories,
+        { categoryName: newCategoryName, _id: response.data._id },
+      ]);
+      setNewCategoryName("");
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div className="w-[1171px]  flex flex-col gap-6  ">
       <div className="flex justify-end">
@@ -60,14 +80,14 @@ export const Foodmenu = () => {
           Dishes category
         </div>
         <div className="w-[1123px] h-[84px] flex flex-wrap gap-3">
-          {buttons.map((button, index) => (
+          {category.map((button, index) => (
             <Button
               key={index}
               variant={"outline"}
               className="rounded-[9999px]"
             >
-              {button.name}
-              <Badge className="rounded-[9999px]">{button.quantity}</Badge>
+              {button.categoryName}
+              <Badge className="rounded-[9999px]"></Badge>
             </Button>
           ))}
           <Dialog>
@@ -85,7 +105,19 @@ export const Foodmenu = () => {
                     <input
                       className="w-[412px] h-[38px] border rounded-[6px]"
                       placeholder="Type category name..."
+                      value={newCategoryName}
+                      onChange={(e) => setNewCategoryName(e.target.value)}
                     ></input>
+                    {errorMessage && (
+                      <div className="text-red-500 text-sm mt-2">
+                        {errorMessage}
+                      </div>
+                    )}
+                    {categorySuccess && (
+                      <p className="text-green-600 text-sm text-center">
+                        Amjilttai nemegdlee!
+                      </p>
+                    )}
                     <div className="w-full h-full flex justify-end">
                       <button
                         onClick={postCategory}

@@ -13,7 +13,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+export type foodType = {
+  foodName: string;
+  price: string;
+  image: string;
+  ingredients: string;
+  category: string;
+};
+type AddNewDishProps = {
+  setShowAddDish: (show: boolean) => void;
+};
 const formSchema = z.object({
   foodname: z.string().min(2, {
     message: "Hoolnii ner oruulna uu!",
@@ -26,7 +35,7 @@ const formSchema = z.object({
   }),
   foodImage: z.string(),
 });
-export const Addnewdish = () => {
+export const Addnewdish = ({ setShowAddDish }: AddNewDishProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,14 +49,8 @@ export const Addnewdish = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
-
-  const [showAddDish, setShowAddDish] = useState(false);
-
-  const toggleForm = () => {
-    setShowAddDish((prev) => !prev);
-  };
   return (
-    <div className="w-[460px] h-[592px] flex flex-col gap-6 py-6 px-6 bg-white rounded-2xl absolute z-15 top-[500px] left-[1000px]">
+    <div className="w-[460px] h-[620px] flex flex-col gap-6 py-6 px-6 bg-white rounded-2xl absolute z-15 top-[500px] left-[1000px]">
       <Form {...form}>
         <form
           className="flex flex-col gap-[30px]"
@@ -57,7 +60,10 @@ export const Addnewdish = () => {
             <div className="w-[366px] h-[28px] font-semibold text-[18px]">
               Add new Dish to Appetizers
             </div>
-            <div className="w-[36px] h-[36px] rounded-[9999px] bg-[#f4f4f5] flex justify-center items-center">
+            <div
+              className="w-[36px] h-[36px] rounded-[9999px] bg-[#f4f4f5] flex justify-center items-center"
+              onClick={() => setShowAddDish(false)}
+            >
               <X />
             </div>
           </div>
@@ -94,6 +100,22 @@ export const Addnewdish = () => {
                 )}
               />
             </div>
+          </div>
+          <div className="w-[194px] h-[60px] flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="foodPrice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Food category</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter category..." {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <div className="w-[412px] h-[112px] flex flex-col gap-2">
             <FormField

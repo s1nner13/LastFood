@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -16,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 const formSchema = z.object({
   email: z

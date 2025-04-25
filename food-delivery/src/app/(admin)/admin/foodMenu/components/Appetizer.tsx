@@ -3,6 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Pencil, Plus } from "lucide-react";
 import { useState } from "react";
 import { Addnewdish } from "./Addnewdish";
+export type foodType = {
+  foodName: string;
+  price: string;
+  image: string;
+  ingredients: string;
+  category: string;
+};
 export const Adminappetizer = () => {
   const items = [
     {
@@ -69,7 +76,7 @@ export const Adminappetizer = () => {
               </Button>
               <p>Add new Dish</p>
             </div>
-            {showAddDish && <Addnewdish />}
+            {showAddDish && <Addnewdish setShowAddDish={setShowAddDish} />}
           </div>
 
           {items.map((item) => (

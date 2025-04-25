@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { categoryModel } from "../../models/category.model";
 
-export const postCategoryasd: RequestHandler = async (req, res) => {
+export const postCategory: RequestHandler = async (req, res) => {
   try {
     const { categoryName } = req.body;
     await categoryModel.create({

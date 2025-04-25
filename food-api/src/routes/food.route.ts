@@ -12,6 +12,6 @@ foodRouter
   .delete("/", deleteFood)
   .patch("/", patchFood)
   .get("/", getFoods)
-  .post("/", createFood);
+  .post("/create-food", createFood);
 
 export default foodRouter;
