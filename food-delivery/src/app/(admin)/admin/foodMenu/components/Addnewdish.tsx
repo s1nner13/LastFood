@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { X } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Editdish } from "./Editdish";
+import { Adminappetizer } from "./Appetizer";
+
 export type foodType = {
   foodName: string;
   price: string;
@@ -22,6 +26,7 @@ export type foodType = {
 };
 type AddNewDishProps = {
   setShowAddDish: (show: boolean) => void;
+  categoryId: string;
 };
 const formSchema = z.object({
   foodname: z.string().min(2, {
@@ -33,22 +38,45 @@ const formSchema = z.object({
   ingredients: z.string().min(2, {
     message: "Orts oruulna uu!",
   }),
-  foodImage: z.string(),
+  foodImage: z.any(),
+  category: z.string().min(2, {
+    message: "Category oruulna uu!",
+  }),
 });
-export const Addnewdish = ({ setShowAddDish }: AddNewDishProps) => {
+
+export const Addnewdish = ({ setShowAddDish, categoryId }: AddNewDishProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       foodname: "",
       foodPrice: "",
       ingredients: "",
-      foodImage: "",
+      foodImage: null,
+      category: categoryId,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    postFood();
   }
+
+  const postFood = async () => {
+    const values = form.getValues();
+    try {
+      const { foodname, foodPrice, ingredients } = values;
+      await axios.post("http://localhost:3001/food/create-food", {
+        foodName: foodname,
+        price: Number(foodPrice),
+        image: "/Appetizer.png",
+        ingredients,
+        category: categoryId,
+      });
+      setShowAddDish(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="w-[460px] h-[620px] flex flex-col gap-6 py-6 px-6 bg-white rounded-2xl absolute z-15 top-[500px] left-[1000px]">
       <Form {...form}>
@@ -101,22 +129,7 @@ export const Addnewdish = ({ setShowAddDish }: AddNewDishProps) => {
               />
             </div>
           </div>
-          <div className="w-[194px] h-[60px] flex flex-col gap-2">
-            <FormField
-              control={form.control}
-              name="foodPrice"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Food category</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter category..." {...field} />
-                  </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <div className="w-[412px] h-[112px] flex flex-col gap-2">
             <FormField
               control={form.control}

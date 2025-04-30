@@ -19,7 +19,7 @@ const foodSchema = new Schema({
   },
   ingredients: {
     type: String,
-    required: false,
+    required: true,
   },
   category: {
     type: Schema.Types.ObjectId,

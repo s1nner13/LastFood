@@ -1,12 +1,11 @@
 import { foodModel } from "../../models/food.model";
 
-export const getFoods = async (req, res) => {
+export const getFoodsCount = async (req, res) => {
   const { categoryId } = req.query;
-  const food = await foodModel
+  const foodCount = await foodModel
     .find(categoryId ? { category: categoryId } : {})
-    .populate("category");
-
+    .countDocuments();
   return res.status(200).json({
-    food,
+    foodCount,
   });
 };

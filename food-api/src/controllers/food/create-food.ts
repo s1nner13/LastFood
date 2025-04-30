@@ -17,6 +17,7 @@ export const createFood: RequestHandler = async (req, res) => {
       message: "Food nemegdsen",
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "ALDAA",
     });

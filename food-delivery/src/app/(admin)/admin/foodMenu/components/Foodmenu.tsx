@@ -1,11 +1,9 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Adminappetizer } from "./Appetizer";
-import { Adminsalads } from "./Salads";
-import { Adminbreakfast } from "./Breakfast";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -16,6 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Buttons } from "./Button";
+import { Alldishes } from "./Alldishes";
+import { Editdish } from "./Editdish";
 export type categoryType = {
   categoryName: string;
   _id: string;
@@ -77,18 +78,14 @@ export const Foodmenu = () => {
       </div>
       <div className="w-[1171px] h-[176px] flex flex-col gap-4 px-6 py-6 rounded-2xl bg-white">
         <div className="ml-6 font-semibold text-[20px] text-black">
-          Dishes category
+          Dishes category({category.length})
         </div>
         <div className="w-[1123px] h-[84px] flex flex-wrap gap-3">
+          <Alldishes />
           {category.map((button, index) => (
-            <Button
-              key={index}
-              variant={"outline"}
-              className="rounded-[9999px]"
-            >
-              {button.categoryName}
-              <Badge className="rounded-[9999px]"></Badge>
-            </Button>
+            <div key={index}>
+              <Buttons button={button} />
+            </div>
           ))}
           <Dialog>
             <DialogTrigger>
@@ -133,9 +130,16 @@ export const Foodmenu = () => {
           </Dialog>
         </div>
       </div>
-      <Adminappetizer />
-      <Adminsalads />
-      <Adminbreakfast />
+      {category.map((item, index) => {
+        return (
+          <div key={index}>
+            <Adminappetizer
+              categoryName={item.categoryName}
+              categoryId={item._id}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

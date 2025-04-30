@@ -4,7 +4,8 @@ import { foodModel } from "../../models/food.model";
 export const patchFood: RequestHandler = async (req, res) => {
   try {
     const { foodName, price, image, ingredients, category } = req.body;
-    await foodModel.updateOne({
+    const { foodId } = req.query;
+    await foodModel.findByIdAndUpdate(foodId, {
       foodName,
       price,
       image,
