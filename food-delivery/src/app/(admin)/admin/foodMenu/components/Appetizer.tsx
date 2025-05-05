@@ -19,12 +19,11 @@ export type categoryType = {
   categoryName: string;
   categoryId: string;
 };
-const UPLOAD_PRESET = "guneegod";
-const CLOUD_NAME = "dqd01lbfy";
+
 export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
   const [foods, setFoods] = useState<foodType[]>([]);
   const [showAddDish, setShowAddDish] = useState(false);
-
+  const [editDishOpenId, setEditDishOpenId] = useState<string | null>(null);
   const toggleForm = () => {
     setShowAddDish((prev) => !prev);
   };
@@ -38,7 +37,7 @@ export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
       setFoods(response.data.food);
       console.log(response);
     } catch (error) {
-      console.error("Error fetching food:", error);
+      console.error(error);
     }
   };
   useEffect(() => {
@@ -64,19 +63,23 @@ export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
             </div>
             {showAddDish && (
               <Addnewdish
+                getFood={getFood}
                 setShowAddDish={setShowAddDish}
                 categoryId={categoryId}
               />
             )}
           </div>
 
-          {foods.map((item, index) => (
+          {foods.map((item) => (
             <div
               key={item._id}
               className="w-[270px] h-[241px] bg-white flex flex-col gap-5 px-4 py-4 rounded-[20px] border"
             >
               <div className="relative">
-                <img src={item.image} className="relative" />
+                <img
+                  src={item.image}
+                  className="relative w-[238px] h-[130px]"
+                />
                 <Button
                   size="icon"
                   className="rounded-full absolute top-[65px] left-[174px] z-10 bg-white"
@@ -93,6 +96,10 @@ export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
                         price={item.price}
                         image={item.image}
                         categoryId={item.category._id}
+                        onClose={() => {
+                          setEditDishOpenId(null);
+                          getFood();
+                        }}
                       />
                     </DialogContent>
                   </Dialog>

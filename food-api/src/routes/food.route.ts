@@ -10,7 +10,7 @@ const foodRouter = Router();
 
 foodRouter
   .get("/", getFood)
-  .delete("/", deleteFood)
+  .delete("/delete", deleteFood)
   .patch("/patch", patchFood)
   .get("/foods", getFoods)
   .get("/foods/count", getFoodsCount)

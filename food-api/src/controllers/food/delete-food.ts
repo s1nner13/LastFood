@@ -3,8 +3,9 @@ import { foodModel } from "../../models/food.model";
 
 export const deleteFood: RequestHandler = async (req, res) => {
   try {
-    const { id } = req.body;
-    await foodModel.findByIdAndDelete(id, {});
+    const { foodId } = req.query;
+
+    await foodModel.findByIdAndDelete(foodId, {});
 
     res.status(200).json({
       message: "Food ustgagdlaa",

@@ -14,8 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Editdish } from "./Editdish";
-import { Adminappetizer } from "./Appetizer";
+
+const UPLOAD_PRESET = "guneegod";
+const CLOUD_NAME = "dqd01lbfy";
 
 export type foodType = {
   foodName: string;
@@ -27,6 +28,7 @@ export type foodType = {
 type AddNewDishProps = {
   setShowAddDish: (show: boolean) => void;
   categoryId: string;
+  getFood: () => void;
 };
 const formSchema = z.object({
   foodname: z.string().min(2, {
@@ -44,7 +46,11 @@ const formSchema = z.object({
   }),
 });
 
-export const Addnewdish = ({ setShowAddDish, categoryId }: AddNewDishProps) => {
+export const Addnewdish = ({
+  setShowAddDish,
+  categoryId,
+  getFood,
+}: AddNewDishProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,22 +61,57 @@ export const Addnewdish = ({ setShowAddDish, categoryId }: AddNewDishProps) => {
       category: categoryId,
     },
   });
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     postFood();
   }
 
+  const uploadImage = async (file: File | undefined) => {
+    if (!file) {
+      return null;
+    }
+    console.log("hi");
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const result = response.data.url;
+      console.log("hi1");
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      return { error: "failed to upload image" };
+    }
+  };
+
   const postFood = async () => {
     const values = form.getValues();
     try {
-      const { foodname, foodPrice, ingredients } = values;
+      const { foodname, foodPrice, ingredients, foodImage } = values;
+      console.log(foodImage);
+
+      const imgUrl = await uploadImage(foodImage);
+      console.log("hi2");
+
       await axios.post("http://localhost:3001/food/create-food", {
         foodName: foodname,
         price: Number(foodPrice),
-        image: "/Appetizer.png",
+        image: imgUrl,
         ingredients,
         category: categoryId,
       });
+      await getFood();
       setShowAddDish(false);
     } catch (error) {
       console.error(error);
@@ -159,9 +200,14 @@ export const Addnewdish = ({ setShowAddDish, categoryId }: AddNewDishProps) => {
                   <FormLabel>Food image</FormLabel>
                   <FormControl>
                     <Input
-                      className="w-[412px] h-[90px]"
+                      className="w-[412px] h-[90px] "
                       type="file"
-                      {...field}
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          form.setValue("foodImage", e.target.files[0]);
+                        }
+                      }}
                     />
                   </FormControl>
 

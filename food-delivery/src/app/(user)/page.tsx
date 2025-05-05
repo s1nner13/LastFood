@@ -5,32 +5,41 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { LogedIn } from "./components/LogedInHeader";
 
+export type categoryType = {
+  categoryName: string;
+  _id: string;
+};
 export default function Home() {
-  const [foods, setFoods] = useState(null);
+  const [category, setCategory] = useState<categoryType[]>([]);
 
-  const getFoods = async () => {
+  const getCategory = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/food");
-      setFoods(response.data);
-      console.log("asdasdasd", response.data);
+      const response = await axios.get("http://localhost:3001/category");
+      setCategory(response.data.categories);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getFoods();
+    getCategory();
   }, []);
-  console.log("hiihihihih");
 
   return (
     <div className="flex flex-col items-center bg-[#232323]">
       <div className="w-[1440px] bg-[#404040] flex flex-col items-center">
-        <Header />
+        <LogedIn />
         <img src="/Hero.png"></img>
-        <Categories />
-        <Menu />
+        <Categories categories={category} />
+        {category.map((item) => {
+          return (
+            <div key={item._id}>
+              <Menu categoryId={item._id} categoryName={item.categoryName} />
+            </div>
+          );
+        })}
         <Footer />
       </div>
     </div>

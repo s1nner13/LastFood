@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Adminappetizer } from "./Appetizer";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -26,6 +25,7 @@ export const Foodmenu = () => {
   const [newCategoryName, setNewCategoryName] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [categorySuccess, setCategorySuccess] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const getCategory = async () => {
     const response = await axios.get("http://localhost:3001/category");
     setCategory(response.data.categories);
@@ -68,6 +68,12 @@ export const Foodmenu = () => {
     }
   };
 
+  const filteredCategory = category.filter((item) => {
+    if (selectedCategory == "") return true;
+    if (item._id === selectedCategory) {
+      return true;
+    }
+  });
   return (
     <div className="w-[1171px]  flex flex-col gap-6  ">
       <div className="flex justify-end">
@@ -81,10 +87,17 @@ export const Foodmenu = () => {
           Dishes category({category.length})
         </div>
         <div className="w-[1123px] h-[84px] flex flex-wrap gap-3">
-          <Alldishes />
-          {category.map((button, index) => (
-            <div key={index}>
-              <Buttons button={button} />
+          <Alldishes
+            selectedCat={selectedCategory}
+            setSelectedCat={setSelectedCategory}
+          />
+          {category.map((button) => (
+            <div key={button._id}>
+              <Buttons
+                button={button}
+                selectedCat={selectedCategory}
+                setSelectedCat={setSelectedCategory}
+              />
             </div>
           ))}
           <Dialog>
@@ -130,9 +143,9 @@ export const Foodmenu = () => {
           </Dialog>
         </div>
       </div>
-      {category.map((item, index) => {
+      {filteredCategory.map((item, index) => {
         return (
-          <div key={index}>
+          <div key={item._id}>
             <Adminappetizer
               categoryName={item.categoryName}
               categoryId={item._id}

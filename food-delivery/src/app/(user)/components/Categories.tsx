@@ -2,25 +2,20 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-export const Categories = () => {
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+export type categoriesType = {
+  categoryName: string;
+  _id: string;
+};
+type CategoriesProps = {
+  categories: categoriesType[];
+};
+export const Categories = ({ categories }: CategoriesProps) => {
+  const [clickedIndex, setClickedIndex] = useState<string>("");
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: string) => {
     setClickedIndex(index);
   };
 
-  const categories = [
-    "Appetizers",
-    "Salads",
-    "Pizzas",
-    "Lunch favorites",
-    "Main dishes",
-    "Fish & Sea foods",
-    "Side dish",
-    "Brunch",
-    "Desserts",
-    "Beverages",
-  ];
   return (
     <div className="w-[1440px] h-[176px] flex flex-col gap-9 px-12 py-8 ">
       <div className="w-[1344px] h-[36px] px-10">
@@ -31,15 +26,19 @@ export const Categories = () => {
           <ChevronLeft />
         </Button>
         <div className="w-[1248px] h-9 flex gap-2">
-          {categories.map((category, index) => (
+          {categories.map((item) => (
             <button
-              key={category}
-              onClick={() => handleClick(index)}
-              className={`flex gap-[10px] px-5 py-4 h-9 rounded-[9999px] justify-center items-center ${
-                clickedIndex === index ? "bg-[#ef4444] text-white" : "bg-white"
-              }`}
+              key={item._id}
+              onClick={() => handleClick(item._id)}
+              className={`flex gap-[10px] px-5 py-4 h-9 rounded-[9999px] justify-center items-center
+                 ${
+                   clickedIndex === item._id
+                     ? "bg-[#ef4444] text-white"
+                     : "bg-white"
+                 }
+              `}
             >
-              {category}
+              {item.categoryName}
             </button>
           ))}
         </div>

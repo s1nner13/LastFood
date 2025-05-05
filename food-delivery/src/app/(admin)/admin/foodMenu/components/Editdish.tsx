@@ -4,6 +4,7 @@ import { Trash, X } from "lucide-react";
 import { Editcategory } from "./Editcategory";
 import { useState } from "react";
 import axios from "axios";
+import { Deletedish } from "./Deletedish";
 type EditDishProps = {
   foodname: string;
   ingredients: string;
@@ -11,6 +12,7 @@ type EditDishProps = {
   image: string;
   foodId: string;
   categoryId: string;
+  onClose: () => void;
 };
 export const Editdish = ({
   foodname,
@@ -19,11 +21,13 @@ export const Editdish = ({
   image,
   categoryId,
   foodId,
+  onClose,
 }: EditDishProps) => {
   const [name, setName] = useState(foodname);
   const [dishIngredients, setDishIngredients] = useState(ingredients);
   const [dishPrice, setDishPrice] = useState(price);
   const [dishImage, setDishImage] = useState<File | null>(null);
+  const [editSuccess, setEditSuccess] = useState(false);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setDishImage(e.target.files[0]);
@@ -32,22 +36,21 @@ export const Editdish = ({
 
   const Patchfood = async () => {
     try {
-      //   const formData = new FormData();
-      //   formData.append("foodName", name);
-      //   formData.append("price", dishPrice);
-      //   formData.append("ingredients", dishIngredients);
-
-      //   if (dishImage) {
-      //     formData.append("image", dishImage);
-      //   }
-      await axios.patch(`http://localhost:3001/food/patch?foodId=${foodId}`, {
-        foodName: name,
-        price: dishPrice,
-        ingredients: dishIngredients,
-        category: categoryId,
-      });
+      const response = await axios.patch(
+        `http://localhost:3001/food/patch?foodId=${foodId}`,
+        {
+          foodName: name,
+          price: dishPrice,
+          ingredients: dishIngredients,
+          category: categoryId,
+        }
+      );
+      if (response.status === 200 || response.status === 201) {
+        setEditSuccess(true);
+      }
+      onClose();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
   return (
@@ -93,10 +96,13 @@ export const Editdish = ({
           ></Input>
         </div>
       </div>
+      {editSuccess && (
+        <p className="text-green-600 text-sm text-center">
+          Amjilttai shinchlegdlee!
+        </p>
+      )}
       <div className="w-[424px] h-[64px] flex pt-6 justify-between">
-        <Button className="bg-white border border-red-500">
-          <Trash className="text-red-500" />
-        </Button>
+        <Deletedish foodId={foodId} onClose={onClose} />
         <Button className="w-[126px] h-[40px] px-4 py-2" onClick={Patchfood}>
           Save changes
         </Button>
