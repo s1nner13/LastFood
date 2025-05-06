@@ -24,14 +24,13 @@ export const Menu = ({ categoryId, categoryName }: categoryType) => {
       );
 
       setFoods(response.data.food);
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
   };
   useEffect(() => {
     getFood();
-  });
+  }, []);
   return (
     <div className="w-[1264px] flex flex-col gap-[54px]">
       <div className="w-[1264px] flex flex-col gap-[30px]">
