@@ -8,12 +8,17 @@ export type categoriesType = {
 };
 type CategoriesProps = {
   categories: categoriesType[];
+  onCategoryClick: (categoryId: string) => void;
 };
-export const Categories = ({ categories }: CategoriesProps) => {
+export const Categories = ({
+  categories,
+  onCategoryClick,
+}: CategoriesProps) => {
   const [clickedIndex, setClickedIndex] = useState<string>("");
 
   const handleClick = (index: string) => {
     setClickedIndex(index);
+    onCategoryClick(index);
   };
 
   return (

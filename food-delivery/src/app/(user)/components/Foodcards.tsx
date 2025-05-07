@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-
+import { toast } from "sonner";
 export type foodType = {
   foodName: string;
   price: string;
@@ -19,7 +19,7 @@ type FoodsProps = {
 export const Foodcards = ({ item }: FoodsProps) => {
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(parseFloat(item.price));
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     setTotalPrice(parseFloat(item.price) * quantity);
   }, [quantity, item.price]);
@@ -36,6 +36,8 @@ export const Foodcards = ({ item }: FoodsProps) => {
     const stored = JSON.parse(localStorage.getItem("cart") || "[]");
     const UpdatedFood = [...stored, newFood];
     localStorage.setItem("cart", JSON.stringify(UpdatedFood));
+    toast.success(`${item.foodName} Added to cart`);
+    setOpen(false);
   };
 
   const handleAddQantity = () => {
@@ -52,7 +54,7 @@ export const Foodcards = ({ item }: FoodsProps) => {
     >
       <div className="relative">
         <img src={item.image} className="relative" />
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger>
             <Button
               size="icon"

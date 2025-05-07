@@ -13,6 +13,7 @@ export type categoryType = {
 };
 export default function Home() {
   const [category, setCategory] = useState<categoryType[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const getCategory = async () => {
     try {
@@ -27,18 +28,25 @@ export default function Home() {
     getCategory();
   }, []);
 
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+  };
   return (
     <div className="flex flex-col items-center bg-[#232323]">
       <div className="w-[1440px] bg-[#404040] flex flex-col items-center">
         <LogedIn />
         <img src="/Hero.png"></img>
-        <Categories categories={category} />
+        <Categories
+          categories={category}
+          onCategoryClick={handleCategoryClick}
+        />
         {category.map((item) => {
-          return (
-            <div key={item._id}>
-              <Menu categoryId={item._id} categoryName={item.categoryName} />
-            </div>
-          );
+          if (item._id === selectedCategory || !selectedCategory)
+            return (
+              <div key={item._id}>
+                <Menu categoryId={item._id} categoryName={item.categoryName} />
+              </div>
+            );
         })}
         <Footer />
       </div>
