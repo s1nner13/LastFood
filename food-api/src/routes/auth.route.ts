@@ -5,10 +5,11 @@ import { postAuthSignup } from "../controllers/auth/post-auth-signup";
 import { postResetpassword } from "../controllers/auth/post-resetpassword";
 import { getVerifyPass } from "../controllers/auth/get-verify-password";
 import { UserExists } from "../controllers/auth/userExists";
+import { authenticationMiddleware } from "../middlewares/authentication-middleware";
 const authRouter = Router();
 
 authRouter
-  .get("/refresh", getAuthRefresh)
+  .get("/refresh", authenticationMiddleware, getAuthRefresh)
   .get("/verify-reset-password-request", getVerifyPass)
   .post("/sign-in", postAuthSignin)
   .post("/sign-up", postAuthSignup)

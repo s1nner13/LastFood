@@ -1,12 +1,4 @@
-import {
-  ChevronRight,
-  MapPin,
-  Minus,
-  Plus,
-  ShoppingCart,
-  User2,
-  X,
-} from "lucide-react";
+import { ChevronRight, MapPin, ShoppingCart, User2 } from "lucide-react";
 import { Logo } from "./Logo-container";
 import {
   Dialog,
@@ -23,16 +15,30 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Cart } from "./LogedInCart";
 import { Order } from "./LogedInOrder";
-
+import axios from "axios";
 export const LogedIn = () => {
   const [address, setAddress] = useState("");
+
+  const postAddress = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/user/post-user",
+        { address }
+      );
+      // if (response.status === 200 || response.status === 201) {
+      //   setCategorySuccess(true);
+      // }
+      setAddress("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="w-[1440px] h-[68px] bg-[#18181b] px-22 py-3 flex gap-[735px]">
       <Logo />

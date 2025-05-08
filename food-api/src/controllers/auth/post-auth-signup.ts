@@ -1,25 +1,13 @@
+import { RequestHandler } from "express";
 import { userModel } from "../../models/user.model";
 import bcrypt from "bcrypt";
-export const postAuthSignup = async (req, res) => {
+export const postAuthSignup: RequestHandler = async (req, res) => {
   try {
-    const {
-      email,
-      password,
-      phoneNumber,
-      address,
-      orderedFoods,
-      isVerified,
-      role,
-    } = req.body;
+    const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 2);
     await userModel.create({
-      email,
+      ...req.body,
       password: hashedPassword,
-      phoneNumber,
-      address,
-      orderedFoods,
-      isVerified,
-      role,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

@@ -8,7 +8,7 @@ const userRouter = Router();
 
 userRouter
   .get("/", getUser)
-  .post("", postUser)
+  .post("post-user", postUser)
   .patch("", patchUser)
   .delete("", deleteUser);
 export default userRouter;
