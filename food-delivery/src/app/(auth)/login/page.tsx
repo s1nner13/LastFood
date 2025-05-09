@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useAuth } from "@/app/_providers/AuthProvider";
 
 const formSchema = z.object({
   email: z.string().min(2).max(50),
@@ -21,6 +22,8 @@ const formSchema = z.object({
 });
 
 export default function Home() {
+  const { signIn } = useAuth();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,7 +32,7 @@ export default function Home() {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    signIn(values.email, values.password);
   }
 
   return (
@@ -92,6 +95,7 @@ export default function Home() {
                 </button>
               </form>
             </Form>
+
             <Link href="/forgotpassword" className="underline">
               Forgot password ?
             </Link>

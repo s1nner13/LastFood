@@ -8,6 +8,7 @@ import {
 } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type User = {
   _id: string;
@@ -25,7 +26,7 @@ const AuthContext = createContext({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const signIn = async (email: string, password: string) => {
     try {
       const { data } = await axios.post("http://localhost:3001/auth/sign-in", {
@@ -34,10 +35,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       });
       localStorage.setItem("token", data.token);
       setUser(data.user);
+      router.push("/");
     } catch {
       toast.error("Failed to log in");
     }
   };
+
   const signUp = async (email: string, password: string) => {
     try {
       const { data } = await axios.post("http://localhost:3001/auth/sign-up", {
@@ -51,6 +54,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       toast.error("Failed to sign up");
     }
   };
+
   const signOut = async () => {
     localStorage.removeItem("token");
     setUser(undefined);
@@ -58,8 +62,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log("token", token);
 
     if (!token) return;
+    console.log("test1");
 
     const getUser = async () => {
       setLoading(true);
@@ -71,7 +77,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           },
         });
         setUser(data);
-      } catch {
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+
         localStorage.removeItem("token");
         setUser(undefined);
       } finally {
