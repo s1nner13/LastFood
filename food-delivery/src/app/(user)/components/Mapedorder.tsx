@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { SelectSeparator } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { MapIcon, SoupIcon, TimerIcon } from "lucide-react";
 
 type FoodOrderItem = {
@@ -20,7 +20,7 @@ export const MapedOrder = ({ item }: OrderProps) => {
   const trueDate = new Date(item.createdAt).toLocaleDateString();
   return (
     <>
-      <div className="w-[439px] h-[138px] flex flex-col gap-3 px-3">
+      <div className="w-[439px] h-[138px] flex flex-col gap-3 px-3 ">
         <div className="w-[415px] h-[28px] flex justify-between">
           <div className="font-bold text-[16px]">{item.totalPrice}₮</div>
           <Badge
@@ -56,7 +56,7 @@ export const MapedOrder = ({ item }: OrderProps) => {
           <p className="text-[#09090b] opacity-[50%]">hayag</p>
         </div>
       </div>
-      <SelectSeparator />
+      <Separator />
     </>
   );
 };

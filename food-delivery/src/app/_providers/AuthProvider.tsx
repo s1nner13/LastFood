@@ -15,12 +15,14 @@ type User = {
   name: string;
   email: string;
   image: string;
+  role: string;
 };
 type AuthContextType = {
   user?: User;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  setUser: (user?: User) => void;
 };
 const AuthContext = createContext({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -36,8 +38,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       localStorage.setItem("token", data.token);
       setUser(data.user);
       router.push("/");
+      return data.user;
     } catch {
       toast.error("Failed to log in");
+      return undefined;
     }
   };
 
@@ -91,7 +95,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut, signUp }}>
+    <AuthContext.Provider value={{ user, signIn, signOut, signUp, setUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );

@@ -1,5 +1,4 @@
 "use client";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -12,8 +11,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { useAuth } from "@/app/_providers/AuthProvider";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().min(2).max(50),
@@ -22,7 +22,7 @@ const formSchema = z.object({
 
 export default function Home() {
   const { signIn } = useAuth();
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,9 +30,20 @@ export default function Home() {
       password: "",
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    signIn(values.email, values.password);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const user = await signIn(values.email, values.password);
+      if (!user) return;
+
+      if (user.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
 
   return (
     <div className="flex justify-center">

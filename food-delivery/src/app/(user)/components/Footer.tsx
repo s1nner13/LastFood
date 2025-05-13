@@ -1,5 +1,4 @@
 "use client";
-
 import { Logosmall } from "./Logosmall";
 import { motion } from "motion/react";
 export const Footer = () => {

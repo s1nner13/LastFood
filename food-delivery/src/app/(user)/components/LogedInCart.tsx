@@ -11,7 +11,6 @@ type CartItem = {
   price: string;
   createdAt: Date;
 };
-
 export const Cart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
 

@@ -1,7 +1,7 @@
 "use client";
 import { Minus, Plus, X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type CartItem = {
   foodName: string;

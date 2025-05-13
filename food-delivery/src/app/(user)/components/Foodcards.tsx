@@ -53,7 +53,7 @@ export const Foodcards = ({ item }: FoodsProps) => {
       className="w-[397px] bg-white flex flex-col gap-5 px-4 py-4 rounded-[20px]"
     >
       <div className="relative">
-        <img src={item.image} className="relative" />
+        <img src={item.image} className="relative w-[365px] h-[210px]" />
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger>
             <Button

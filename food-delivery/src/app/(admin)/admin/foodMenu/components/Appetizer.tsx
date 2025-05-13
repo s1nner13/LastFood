@@ -75,7 +75,7 @@ export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
               key={item._id}
               className="w-[270px] h-[241px] bg-white flex flex-col gap-5 px-4 py-4 rounded-[20px] border"
             >
-              <div className="relative">
+              <div className="relative ">
                 <img
                   src={item.image}
                   className="relative w-[238px] h-[130px]"
@@ -110,7 +110,7 @@ export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
                   <p className="font-medium text-[14px] text-[#ef4444]">
                     {item.foodName}
                   </p>
-                  <p className=" text-[12px]">{item.price}</p>
+                  <p className=" text-[12px]">{item.price}₮</p>
                 </div>
                 <p className="text-[12px]">{item.ingredients}</p>
               </div>

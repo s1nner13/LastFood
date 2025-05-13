@@ -2,24 +2,26 @@ import { userModel } from "../../models/user.model";
 
 export const patchUser = async (req, res) => {
   try {
-    const { email, password, address, orderedFoods, role } = req.body;
     const { userId } = req.query;
-    await userModel.findByIdAndUpdate(userId, {
-      email,
-      password,
-      address,
-      orderedFoods,
-      role,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+    const updateData = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    updateData.updatedAt = new Date();
+
+    const updatedUser = await userModel.findByIdAndUpdate(userId, updateData, {
+      new: true,
     });
 
-    res.status(200).json({
-      message: "user shinechlegdlee",
-    });
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({
-      message: "ALDAA",
-    });
+    console.error("Patch user error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
