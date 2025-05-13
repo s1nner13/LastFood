@@ -1,5 +1,4 @@
 "use client";
-
 import { MapedCart } from "./MapedCart";
 import { useEffect, useState } from "react";
 import { Payment } from "./Payment";
@@ -10,7 +9,9 @@ type CartItem = {
   image: string;
   quantity: number;
   price: string;
+  createdAt: Date;
 };
+
 export const Cart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
 

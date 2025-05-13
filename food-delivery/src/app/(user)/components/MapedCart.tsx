@@ -66,7 +66,7 @@ export const MapedCart = ({ item, onRemove, onQuantityChange }: CartProps) => {
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <p className="font-bold text-4">{totalPrice}</p>
+            <p className="font-bold text-4">{totalPrice}₮</p>
           </div>
           <Separator />
         </div>

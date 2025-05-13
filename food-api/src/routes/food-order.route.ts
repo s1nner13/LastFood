@@ -6,8 +6,8 @@ import { patchFoodOrder } from "../controllers/food-order/patch-food-order";
 const foodOrderRouter = Router();
 
 foodOrderRouter
-  .get("/", getFoodOrder)
-  .post("/", postFoodOrder)
+  .get("/get-order", getFoodOrder)
+  .post("/post-order", postFoodOrder)
   .patch("/", patchFoodOrder);
 
 export default foodOrderRouter;

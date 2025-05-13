@@ -9,7 +9,6 @@ export const postFoodOrder: RequestHandler = async (req, res) => {
       totalPrice,
       foodOrderItems,
       status,
-
       createdAt: new Date(),
       updatedAt: new Date(),
     });

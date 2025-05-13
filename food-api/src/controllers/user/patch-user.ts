@@ -2,22 +2,13 @@ import { userModel } from "../../models/user.model";
 
 export const patchUser = async (req, res) => {
   try {
-    const {
+    const { email, password, address, orderedFoods, role } = req.body;
+    const { userId } = req.query;
+    await userModel.findByIdAndUpdate(userId, {
       email,
       password,
-      phoneNumber,
       address,
       orderedFoods,
-      isVerified,
-      role,
-    } = req.body;
-    await userModel.updateOne({
-      email,
-      password,
-      phoneNumber,
-      address,
-      orderedFoods,
-      isVerified,
       role,
       createdAt: new Date(),
       updatedAt: new Date(),

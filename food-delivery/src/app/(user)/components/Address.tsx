@@ -15,7 +15,7 @@ export const Address = () => {
   const postAddress = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/user/post-user",
+        `http://localhost:3001/user/patch-user`,
         { address: address }
       );
       setAddress("");

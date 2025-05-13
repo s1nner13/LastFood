@@ -9,6 +9,10 @@ const orderItemSchema = new Schema({
     type: Number,
     required: true,
   },
+  foodName: {
+    type: String,
+    required: true,
+  },
 });
 const orderSchema = new Schema({
   user: {
@@ -16,6 +20,7 @@ const orderSchema = new Schema({
     ref: "user",
     required: true,
   },
+
   totalPrice: {
     type: Number,
     required: true,
