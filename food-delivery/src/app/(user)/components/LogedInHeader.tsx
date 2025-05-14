@@ -27,9 +27,9 @@ export const LogedIn = () => {
         <Address />
         <Sheet>
           <SheetTrigger>
-            <button className="w-9 h-9 flex justify-center items-center bg-white rounded-[9999px]">
+            <div className="w-9 h-9 flex justify-center items-center bg-white rounded-[9999px]">
               <ShoppingCart className="w-4 h-4 " />
-            </button>
+            </div>
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
@@ -71,9 +71,9 @@ export const LogedIn = () => {
         </Sheet>
         <Popover>
           <PopoverTrigger>
-            <button className="w-9 h-9 flex justify-center items-center bg-[#ef4444] rounded-[9999px]">
+            <div className="w-9 h-9 flex justify-center items-center bg-[#ef4444] rounded-[9999px]">
               <User2 className="w-4 h-4 text-white" />
-            </button>
+            </div>
           </PopoverTrigger>
           <PopoverContent className="w-[110px] rounded-[9999px]">
             <button

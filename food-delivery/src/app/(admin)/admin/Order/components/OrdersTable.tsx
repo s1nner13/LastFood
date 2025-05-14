@@ -1,116 +1,78 @@
+"use client";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ChevronDown } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+type FoodOrderItem = {
+  food: {
+    _id: string;
+    foodName: string;
+    image: string;
+    price: string;
+  };
+  quantity: number;
+};
+type OrderType = {
+  _id: string;
+  user: {
+    _id: string;
+    email: string;
+    address: string;
+  };
+  foodOrderItems: FoodOrderItem[];
+  totalPrice: number;
+  status: string;
+  createdAt: string;
+};
 export const Tables = () => {
-  const orders = [
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-    {
-      id: 1,
-      customer: "Test@gmail.com",
-      food: "2 foods",
-      date: "2024/12/20",
-      total: "26.97",
-      address:
-        "2024/12/СБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоонСБД, 12-р хороо, СБД нэгдсэн эмнэлэг Sbd negdsen emneleg | 100 айлын гүүрэн гарцны хойд талд 4д ногоон 20",
-      status: "pending",
-    },
-  ];
+  const [orders, setOrders] = useState<OrderType[]>([]);
+
+  const getOrder = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/food-order/get-allorder"
+      );
+      setOrders(response.data.orders);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateOrderStatus = async (orderId: string, newStatus: string) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:3001/food-order/update-status",
+        {
+          orderId,
+          status: newStatus,
+        }
+      );
+      console.log("Status updated:", response.data);
+      getOrder();
+    } catch (error) {
+      console.error("Failed to update status", error);
+    }
+  };
+  useEffect(() => {
+    getOrder();
+  }, []);
+  const getStatusStyle = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "text-red-500 border-red-500";
+      case "delivered":
+        return "text-green-500 border-green-500";
+      case "cancelled":
+        return "text-gray-500 border-gray-400";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div>
       {orders.map((order, index) => (
@@ -118,39 +80,48 @@ export const Tables = () => {
           <div className="w-[48px] h-[52px] flex gap-[10px] px-4 py-4 items-center">
             <Checkbox className="bg-white"></Checkbox>
           </div>
-          <div className="w-[56px] h-[52px] py-4 px-4 text-[14px] items-center flex">
-            {order.id}
+          <div className="w-[56px] h-[52px] py-4 px-4 text-[14px] items-center flex overflow-scroll">
+            {order._id}
           </div>
-          <div className="w-[214px] h-full px-4 flex gap-[10px] items-center text-[14px]">
-            {order.customer}
+          <div className="w-[214px] h-full px-4 flex gap-[10px] items-center text-[14px] overflow-scroll">
+            {order.user.email}
           </div>
-          <div className="w-[160px] h-full px-4 flex gap-[50px] items-center text-[14px]">
-            {order.food}
+          <div className=" w-[160px] h-full px-4 flex gap-[50px] items-center text-[14px]">
             <Popover>
-              <PopoverTrigger>
-                <ChevronDown />
+              <PopoverTrigger className="flex">
+                {order.foodOrderItems.length} foods <ChevronDown />
               </PopoverTrigger>
               <PopoverContent>
-                Place content for the popover here.
+                {order.foodOrderItems.map((item) => (
+                  <div key={item.food._id} className="flex justify-between">
+                    <span>{item.food.foodName}</span>
+                    <span>x{item.quantity}</span>
+                  </div>
+                ))}
               </PopoverContent>
             </Popover>
           </div>
           <div className="w-[160px] h-full px-4 flex gap-[10px] items-center text-[14px]">
-            {order.date}
+            {new Date(order.createdAt).toLocaleDateString()}
           </div>
           <div className="w-[160px] h-full px-4 flex gap-[10px] items-center text-[14px]">
-            {order.total}
+            {order.totalPrice}₮
           </div>
           <div className="w-[214px] h-full px-4 flex gap-[10px] items-center text-[14px]  overflow-scroll">
-            {order.address}
+            {order.user.address}
           </div>
           <div className="w-[160px] h-full px-4 flex gap-[10px] items-center text-[14px] ">
-            <Badge className=" border border-[#ef4444] bg-white text-black px-[10px] h-[32px] rounded-[9999px] ">
-              {order.status}
-              <Button variant={"ghost"} className="w-4 h-4">
-                <ArrowUpDown />
-              </Button>
-            </Badge>
+            <select
+              className={`bg-white rounded-full px-3 py-1 text-sm border ${getStatusStyle(
+                order.status
+              )}`}
+              value={order.status}
+              onChange={(e) => updateOrderStatus(order._id, e.target.value)}
+            >
+              <option value="pending">Pending</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
           </div>
         </div>
       ))}

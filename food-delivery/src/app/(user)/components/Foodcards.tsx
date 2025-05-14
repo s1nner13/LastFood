@@ -2,7 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 export type foodType = {
   foodName: string;
@@ -55,7 +60,7 @@ export const Foodcards = ({ item }: FoodsProps) => {
       <div className="relative">
         <img src={item.image} className="relative w-[365px] h-[210px]" />
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button
               size="icon"
               className="rounded-full absolute top-[146px] left-[301px] z-10 bg-white"
@@ -105,6 +110,7 @@ export const Foodcards = ({ item }: FoodsProps) => {
                 </Button>
               </div>
             </div>
+            <DialogTitle></DialogTitle>
           </DialogContent>
         </Dialog>
       </div>

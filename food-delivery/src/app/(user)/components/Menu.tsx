@@ -39,7 +39,7 @@ export const Menu = ({ categoryId, categoryName }: categoryType) => {
         </div>
         <div className="flex flex-wrap gap-9">
           {foods.map((item) => (
-            <Foodcards item={item} />
+            <Foodcards item={item} key={item._id} />
           ))}
         </div>
       </div>

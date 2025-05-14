@@ -1,5 +1,4 @@
 import { Foodmenu } from "./components/Foodmenu";
-import { Adminsalads } from "./components/Salads";
 
 export default function Home() {
   return (

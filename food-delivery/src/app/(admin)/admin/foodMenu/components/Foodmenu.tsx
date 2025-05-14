@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { Buttons } from "./Button";
 import { Alldishes } from "./Alldishes";
-import { Editdish } from "./Editdish";
+
 export type categoryType = {
   categoryName: string;
   _id: string;
@@ -101,7 +101,7 @@ export const Foodmenu = () => {
             </div>
           ))}
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <Button size="icon" className="rounded-full  bg-[#ef4444]">
                 <Plus className="text-white" />
               </Button>

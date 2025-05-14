@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { LayoutDashboard, Settings, TruckIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -41,7 +42,7 @@ export const Navbar = () => {
           const isActive = activeButton === index;
 
           return (
-            <button
+            <Button
               key={index}
               onClick={() => handleClick(index, item.path)}
               className={`w-full h-10 flex gap-[10px] px-6 py-2 items-center transition-all duration-150 ${
@@ -52,7 +53,7 @@ export const Navbar = () => {
             >
               <Icon />
               <p className="font-medium text-[14px]">{item.label}</p>
-            </button>
+            </Button>
           );
         })}
       </div>

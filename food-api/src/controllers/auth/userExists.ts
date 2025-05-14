@@ -1,4 +1,3 @@
-import { response } from "express";
 import { connectToDatabase } from "../../database/connect-to-db";
 import { userModel } from "../../models/user.model";
 

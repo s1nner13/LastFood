@@ -4,7 +4,12 @@ import { Pencil, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Addnewdish } from "./Addnewdish";
 import axios from "axios";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Editdish } from "./Editdish";
 
 export type foodType = {
@@ -12,7 +17,9 @@ export type foodType = {
   price: string;
   image: string;
   ingredients: string;
-  category: string;
+  category: {
+    _id: string;
+  };
   _id: string;
 };
 export type categoryType = {
@@ -80,30 +87,31 @@ export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
                   src={item.image}
                   className="relative w-[238px] h-[130px]"
                 />
-                <Button
-                  size="icon"
-                  className="rounded-full absolute top-[65px] left-[174px] z-10 bg-white"
-                >
-                  <Dialog>
-                    <DialogTrigger>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      size="icon"
+                      className="rounded-full absolute top-[65px] left-[174px] z-10 bg-white"
+                    >
                       <Pencil className="text-[#ef4444]" />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <Editdish
-                        foodname={item.foodName}
-                        ingredients={item.ingredients}
-                        foodId={item._id}
-                        price={item.price}
-                        image={item.image}
-                        categoryId={item.category._id}
-                        onClose={() => {
-                          setEditDishOpenId(null);
-                          getFood();
-                        }}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                </Button>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <Editdish
+                      foodname={item.foodName}
+                      ingredients={item.ingredients}
+                      foodId={item._id}
+                      price={item.price}
+                      image={item.image}
+                      categoryId={item.category._id}
+                      onClose={() => {
+                        setEditDishOpenId(null);
+                        getFood();
+                      }}
+                    />
+                    <DialogTitle></DialogTitle>
+                  </DialogContent>
+                </Dialog>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between">
