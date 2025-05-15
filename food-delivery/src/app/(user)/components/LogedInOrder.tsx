@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { MapedOrder } from "./Mapedorder";
 import { useAuth } from "@/app/_providers/AuthProvider";
-import { api } from "../../../../axios";
+import { api } from "../../../axios";
 
 type FoodOrderItem = {
   food: {
     _id: string;
     foodName: string;
     image: string;
-    price: string;
+    price: number;
   };
   quantity: number;
 };

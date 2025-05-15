@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/app/_providers/AuthProvider";
 import { CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
-import { api } from "../../../../axios";
+import { api } from "../../../axios";
 type PaymentProps = {
   calculateTotal: number;
 };

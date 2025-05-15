@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Foodcards } from "./Foodcards";
-import { api } from "../../../../axios";
+import { api } from "../../../axios";
 
 export type foodType = {
   foodName: string;

@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 type AllDishesPropsType = {
   selectedCat: string;
   setSelectedCat: (value: string) => void;

@@ -16,7 +16,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { api } from "../../../../axios";
+import { api } from "../../../axios";
 const formSchema = z.object({
   email: z
     .string()

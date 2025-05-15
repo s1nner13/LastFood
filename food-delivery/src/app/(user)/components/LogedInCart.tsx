@@ -3,16 +3,17 @@ import { MapedCart } from "./MapedCart";
 import { useEffect, useState } from "react";
 import { Payment } from "./Payment";
 
-type CartItem = {
+type Cart = {
   foodName: string;
   ingredients: string;
   image: string;
   quantity: number;
-  price: string;
+  price: number;
   createdAt: Date;
 };
 export const Cart = () => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<Cart[]>([]);
+  console.log("cart", cart);
 
   const handleRemove = (foodName: string) => {
     const updatedCart = cart.filter((item) => item.foodName !== foodName);
@@ -26,7 +27,7 @@ export const Cart = () => {
   }, []);
 
   const calculateTotalAmount = cart.reduce((total, item) => {
-    return total + parseFloat(item.price) * item.quantity;
+    return total + item.price * item.quantity;
   }, 0);
 
   const handleQuantityChange = (foodName: string, newQuantity: number) => {
@@ -44,7 +45,7 @@ export const Cart = () => {
           {cart.map((item) => (
             <MapedCart
               key={item.foodName}
-              item={item}
+              hool={item}
               onRemove={handleRemove}
               onQuantity={handleQuantityChange}
             />

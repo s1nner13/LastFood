@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Editcategory } from "./Editcategory";
 import { useState } from "react";
 import { Deletedish } from "./Deletedish";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 type EditDishProps = {
   foodname: string;
   ingredients: string;

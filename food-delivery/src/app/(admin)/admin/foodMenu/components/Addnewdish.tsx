@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 
 const UPLOAD_PRESET = "guneegod";
 const CLOUD_NAME = "dqd01lbfy";

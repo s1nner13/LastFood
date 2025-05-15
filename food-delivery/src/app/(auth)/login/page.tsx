@@ -15,19 +15,13 @@ import { useAuth } from "@/app/_providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-type User = {
-  email: string;
-  password: string;
-  role: string;
-};
-
 const formSchema = z.object({
   email: z.string().min(2).max(50),
   password: z.string().min(2).max(15),
 });
 
 export default function Home() {
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,7 +32,7 @@ export default function Home() {
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const user: User | null = await signIn(values.email, values.password);
+      await signIn(values.email, values.password);
       if (!user) return;
 
       if (user.role === "admin") {

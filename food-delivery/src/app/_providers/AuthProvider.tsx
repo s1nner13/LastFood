@@ -8,7 +8,7 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { api } from "../../../axios";
+import { api, setAuthToken } from "../../axios";
 
 type User = {
   _id: string;
@@ -63,29 +63,26 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     localStorage.removeItem("token");
     setUser(undefined);
   };
+  const getUser = async () => {
+    setLoading(true);
 
+    try {
+      const { data } = await api.get(`/auth/refresh`);
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+
+      localStorage.removeItem("token");
+      setUser(undefined);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const getUser = async () => {
-      setLoading(true);
-
-      try {
-        const { data } = await api.get(`/auth/refresh`);
-        setUser(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-
-        localStorage.removeItem("token");
-        setUser(undefined);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+    setAuthToken(token);
     getUser();
   }, []);
 

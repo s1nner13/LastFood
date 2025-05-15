@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { MapIcon, SoupIcon, TimerIcon } from "lucide-react";
 
 type FoodOrderItem = {
-  foodName: string;
+  food: { foodName: string };
   quantity: number;
 };
 
@@ -39,7 +39,9 @@ export const MapedOrder = ({ item }: OrderProps) => {
               >
                 <div className="flex gap-2">
                   <SoupIcon className="text-[#09090b] opacity-[50%]" />
-                  <p className="text-[#09090b] opacity-[50%]">{itm.foodName}</p>
+                  <p className="text-[#09090b] opacity-[50%]">
+                    {itm.food.foodName}
+                  </p>
                 </div>
                 <p className="text-[12px]">x{itm.quantity}</p>
               </div>

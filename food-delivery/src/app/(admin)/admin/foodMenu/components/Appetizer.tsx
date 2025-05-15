@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Editdish } from "./Editdish";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 
 export type foodType = {
   foodName: string;

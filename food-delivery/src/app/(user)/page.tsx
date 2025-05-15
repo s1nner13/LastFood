@@ -6,7 +6,7 @@ import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
 import { LogedIn } from "./components/LogedInHeader";
 import { useAuth } from "../_providers/AuthProvider";
-import { api } from "../../../axios";
+import { api } from "../../axios";
 export type categoryType = {
   categoryName: string;
   _id: string;

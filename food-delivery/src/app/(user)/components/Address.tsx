@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAuth } from "@/app/_providers/AuthProvider";
 import { toast } from "sonner";
-import { api } from "../../../../axios";
+import { api } from "../../../axios";
 export const Address = () => {
   const [address, setAddress] = useState("");
   const { user, setUser } = useAuth();

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Buttons } from "./Button";
 import { Alldishes } from "./Alldishes";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 
 export type categoryType = {
   categoryName: string;

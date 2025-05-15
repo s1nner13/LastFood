@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 
 type EditDishProps = {
   foodId: string;

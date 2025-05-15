@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 
 export type categoryType = {
   categoryName: string;

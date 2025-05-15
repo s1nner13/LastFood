@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useEffect, useState } from "react";
-import { api } from "../../../../../../axios";
+import { api } from "../../../../../axios";
 type FoodOrderItem = {
   food: {
     _id: string;

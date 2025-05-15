@@ -11,40 +11,40 @@ type CartItem = {
   price: number;
 };
 type CartProps = {
-  item: CartItem;
+  hool: CartItem;
   onRemove: (foodName: string) => void;
-  onQuantityChange: (foodName: string, newQuantity: number) => void;
+  onQuantity: (foodName: string, newQuantity: number) => void;
 };
-export const MapedCart = ({ item, onRemove, onQuantityChange }: CartProps) => {
-  const [quantity, setQuantity] = useState<number>(item.quantity);
+export const MapedCart = ({ hool, onRemove, onQuantity }: CartProps) => {
+  const [quantity, setQuantity] = useState<number>(hool.quantity);
 
-  const totalPrice = quantity * item.price;
+  const totalPrice = quantity * hool.price;
 
   const handleAddQuantity = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    onQuantityChange(item.foodName, newQuantity);
+    onQuantity(hool.foodName, newQuantity);
   };
 
   const handleMinusQuantity = () => {
     if (quantity <= 1) return;
     const newQuantity = quantity - 1;
     setQuantity(newQuantity);
-    onQuantityChange(item.foodName, newQuantity);
+    onQuantity(hool.foodName, newQuantity);
   };
 
   return (
     <>
       <div className="w-full h-[120px] flex gap-[10px] ">
-        <img className="w-[124px] h-full rounded-[12px]" src={item.image}></img>
+        <img className="w-[124px] h-full rounded-[12px]" src={hool.image}></img>
         <div className="w-[305px] h-full flex flex-col gap-6">
           <div className="flex gap-[10px]">
             <div className="flex flex-col w-[259px]">
-              <p className="font-bold text-4 text-[#ef4444]">{item.foodName}</p>
-              <p className="text-[12px]">{item.ingredients}</p>
+              <p className="font-bold text-4 text-[#ef4444]">{hool.foodName}</p>
+              <p className="text-[12px]">{hool.ingredients}</p>
             </div>
             <button
-              onClick={() => onRemove(item.foodName)}
+              onClick={() => onRemove(hool.foodName)}
               className="w-[36px] h-[36px] rounded-[9999px] border border-[#ef4444] flex justify-center items-center"
             >
               <X className="w-4 h-4 text-[#ef4444]" />
