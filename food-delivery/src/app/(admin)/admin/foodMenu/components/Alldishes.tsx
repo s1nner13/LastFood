@@ -1,8 +1,8 @@
 "use client";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
+import { api } from "../../../../../../axios";
 type AllDishesPropsType = {
   selectedCat: string;
   setSelectedCat: (value: string) => void;
@@ -14,9 +14,7 @@ export const Alldishes = ({
   const [count, setCount] = useState(0);
 
   const countDishes = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/food/foods/count?categoryId=`
-    );
+    const response = await api.get(`/food/foods/count?categoryId=`);
     setCount(response.data.foodCount);
     console.log(response);
   };

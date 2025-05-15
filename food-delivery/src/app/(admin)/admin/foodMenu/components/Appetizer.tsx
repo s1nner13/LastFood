@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Pencil, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Addnewdish } from "./Addnewdish";
-import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Editdish } from "./Editdish";
+import { api } from "../../../../../../axios";
 
 export type foodType = {
   foodName: string;
@@ -30,16 +30,13 @@ export type categoryType = {
 export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
   const [foods, setFoods] = useState<foodType[]>([]);
   const [showAddDish, setShowAddDish] = useState(false);
-  const [editDishOpenId, setEditDishOpenId] = useState<string | null>(null);
   const toggleForm = () => {
     setShowAddDish((prev) => !prev);
   };
 
   const getFood = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/food/foods?categoryId=${categoryId}`
-      );
+      const response = await api.get(`/food/foods?categoryId=${categoryId}`);
 
       setFoods(response.data.food);
       console.log(response);
@@ -105,7 +102,6 @@ export const Adminappetizer = ({ categoryName, categoryId }: categoryType) => {
                       image={item.image}
                       categoryId={item.category._id}
                       onClose={() => {
-                        setEditDishOpenId(null);
                         getFood();
                       }}
                     />

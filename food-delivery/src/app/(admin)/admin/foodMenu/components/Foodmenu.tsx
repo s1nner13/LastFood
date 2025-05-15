@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Adminappetizer } from "./Appetizer";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Buttons } from "./Button";
 import { Alldishes } from "./Alldishes";
+import { api } from "../../../../../../axios";
 
 export type categoryType = {
   categoryName: string;
@@ -27,7 +27,7 @@ export const Foodmenu = () => {
   const [categorySuccess, setCategorySuccess] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const getCategory = async () => {
-    const response = await axios.get("http://localhost:3001/category");
+    const response = await api.get(`/category`);
     setCategory(response.data.categories);
   };
   useEffect(() => {
@@ -49,12 +49,9 @@ export const Foodmenu = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        "http://localhost:3001/category/create-category",
-        {
-          categoryName: newCategoryName,
-        }
-      );
+      const response = await api.post(`/category/create-category`, {
+        categoryName: newCategoryName,
+      });
       if (response.status === 200 || response.status === 201) {
         setCategorySuccess(true);
       }
@@ -143,7 +140,7 @@ export const Foodmenu = () => {
           </Dialog>
         </div>
       </div>
-      {filteredCategory.map((item, index) => {
+      {filteredCategory.map((item) => {
         return (
           <div key={item._id}>
             <Adminappetizer

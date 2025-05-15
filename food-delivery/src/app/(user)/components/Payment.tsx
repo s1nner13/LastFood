@@ -2,10 +2,10 @@
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from "@/app/_providers/AuthProvider";
 import { CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { api } from "../../../../axios";
 type PaymentProps = {
   calculateTotal: number;
 };
@@ -19,11 +19,11 @@ type CartItem = {
   id: string;
 };
 export const Payment = ({ calculateTotal }: PaymentProps) => {
-  const [shipping, setShipping] = useState(5000);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
 
   const { user } = useAuth();
+  const shipping = 5000;
   const paymentTotal = calculateTotal + shipping;
 
   const postOrder = async () => {
@@ -37,15 +37,12 @@ export const Payment = ({ calculateTotal }: PaymentProps) => {
         quantity: item.quantity,
         foodName: item.foodName,
       }));
-      const response = await axios.post(
-        "http://localhost:3001/food-order/post-order",
-        {
-          totalPrice: calculateTotal,
-          user: user?._id,
-          status: "pending",
-          foodOrderItems: orderItems,
-        }
-      );
+      await api.post(`/food-order/post-order`, {
+        totalPrice: calculateTotal,
+        user: user?._id,
+        status: "pending",
+        foodOrderItems: orderItems,
+      });
       setCheckoutSuccess(true);
       localStorage.removeItem("cart");
       setCart([]);

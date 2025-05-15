@@ -6,9 +6,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { api } from "../../../axios";
 
 type User = {
   _id: string;
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const signIn = async (email: string, password: string) => {
     try {
-      const { data } = await axios.post("http://localhost:3001/auth/sign-in", {
+      const { data } = await api.post(`/auth/sign-in`, {
         email,
         password,
       });
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const signUp = async (email: string, password: string) => {
     try {
-      const { data } = await axios.post("http://localhost:3001/auth/sign-up", {
+      const { data } = await api.post(`/auth/sign-up`, {
         email,
         password,
       });
@@ -66,20 +66,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("token", token);
 
     if (!token) return;
-    console.log("test1");
 
     const getUser = async () => {
       setLoading(true);
 
       try {
-        const { data } = await axios.get("http://localhost:3001/auth/refresh", {
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
+        const { data } = await api.get(`/auth/refresh`);
         setUser(data);
         console.log(data);
       } catch (error) {
@@ -91,6 +85,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         setLoading(false);
       }
     };
+
     getUser();
   }, []);
 

@@ -43,6 +43,7 @@ export const Cart = () => {
         <div className="w-[439px] h-[392px] flex flex-col gap-5 overflow-scroll">
           {cart.map((item) => (
             <MapedCart
+              key={item.foodName}
               item={item}
               onRemove={handleRemove}
               onQuantity={handleQuantityChange}

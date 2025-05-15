@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Foodcards } from "./Foodcards";
+import { api } from "../../../../axios";
 
 export type foodType = {
   foodName: string;
@@ -19,9 +19,7 @@ export const Menu = ({ categoryId, categoryName }: categoryType) => {
   const [foods, setFoods] = useState<foodType[]>([]);
   const getFood = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/food/foods?categoryId=${categoryId}`
-      );
+      const response = await api.get(`/food/foods?categoryId=${categoryId}`);
 
       setFoods(response.data.food);
     } catch (error) {

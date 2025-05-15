@@ -1,8 +1,8 @@
 "use client";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { MapedOrder } from "./Mapedorder";
 import { useAuth } from "@/app/_providers/AuthProvider";
+import { api } from "../../../../axios";
 
 type FoodOrderItem = {
   food: {
@@ -26,8 +26,8 @@ export const Order = () => {
   const { user } = useAuth();
   const getOrder = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/food-order/get-order?userId=${user?._id}`
+      const response = await api.get(
+        `/food-order/get-order?userId=${user?._id}`
       );
       setOrders(response.data.orders);
     } catch (error) {

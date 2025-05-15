@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -8,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { api } from "../../../../../../axios";
 
 export type categoryType = {
   categoryName: string;
@@ -16,7 +16,7 @@ export type categoryType = {
 export const Editcategory = () => {
   const [category, setCategory] = useState<categoryType[]>([]);
   const getCategory = async () => {
-    const response = await axios.get("http://localhost:3001/category");
+    const response = await api.get(`/category`);
     setCategory(response.data.categories);
   };
   useEffect(() => {

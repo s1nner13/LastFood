@@ -4,9 +4,9 @@ import { Categories } from "./components/Categories";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { LogedIn } from "./components/LogedInHeader";
 import { useAuth } from "../_providers/AuthProvider";
+import { api } from "../../../axios";
 export type categoryType = {
   categoryName: string;
   _id: string;
@@ -14,10 +14,10 @@ export type categoryType = {
 export default function Home() {
   const [category, setCategory] = useState<categoryType[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const getCategory = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/category");
+      const response = await api.get(`/category`);
       setCategory(response.data.categories);
     } catch (error) {
       console.log(error);

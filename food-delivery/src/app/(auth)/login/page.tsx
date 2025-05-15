@@ -111,7 +111,7 @@ export default function Home() {
                   )}
                 />
                 <button className="w-full h-9 bg-black text-white hover:bg-[#71717a] rounded-2xl">
-                  Let's Go
+                  Let&apos;s Go
                 </button>
               </form>
             </Form>
@@ -122,7 +122,9 @@ export default function Home() {
           </div>
 
           <div className="w-full h-6 flex gap-3 justify-center ">
-            <p className="text-[16px] text-[#71717a]">Don't have an account?</p>
+            <p className="text-[16px] text-[#71717a]">
+              Don&apos;t have an account?
+            </p>
             <Link href="/signup" className="text-[16px] text-[#2563eb]">
               Sign up
             </Link>

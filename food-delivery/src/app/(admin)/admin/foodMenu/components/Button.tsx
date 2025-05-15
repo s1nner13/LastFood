@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from "../../../../../../axios";
 export type categoryType = {
   button: {
     categoryName: string;
@@ -18,8 +18,8 @@ export const Buttons = ({
 }: categoryType) => {
   const [count, setCount] = useState(0);
   const getCategory = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/food/foods/count?categoryId=${button._id}`
+    const response = await api.get(
+      `/food/foods/count?categoryId=${button._id}`
     );
     setCount(response.data.foodCount);
     console.log(response);

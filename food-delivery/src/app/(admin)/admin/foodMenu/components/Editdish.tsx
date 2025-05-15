@@ -1,10 +1,10 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash, X } from "lucide-react";
 import { Editcategory } from "./Editcategory";
 import { useState } from "react";
-import axios from "axios";
 import { Deletedish } from "./Deletedish";
+import { api } from "../../../../../../axios";
 type EditDishProps = {
   foodname: string;
   ingredients: string;
@@ -18,7 +18,6 @@ export const Editdish = ({
   foodname,
   ingredients,
   price,
-  image,
   categoryId,
   foodId,
   onClose,
@@ -26,25 +25,22 @@ export const Editdish = ({
   const [name, setName] = useState(foodname);
   const [dishIngredients, setDishIngredients] = useState(ingredients);
   const [dishPrice, setDishPrice] = useState(price);
-  const [dishImage, setDishImage] = useState<File | null>(null);
+  // const [dishImage, setDishImage] = useState<File | null>(null);
   const [editSuccess, setEditSuccess] = useState(false);
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setDishImage(e.target.files[0]);
-    }
-  };
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     setDishImage(e.target.files[0]);
+  //   }
+  // };
 
   const Patchfood = async () => {
     try {
-      const response = await axios.patch(
-        `http://localhost:3001/food/patch?foodId=${foodId}`,
-        {
-          foodName: name,
-          price: dishPrice,
-          ingredients: dishIngredients,
-          category: categoryId,
-        }
-      );
+      const response = await api.patch(`/food/patch?foodId=${foodId}`, {
+        foodName: name,
+        price: dishPrice,
+        ingredients: dishIngredients,
+        category: categoryId,
+      });
       if (response.status === 200 || response.status === 201) {
         setEditSuccess(true);
       }
@@ -92,7 +88,7 @@ export const Editdish = ({
           <Input
             className="w-[288px] h-[116px] px-3 py-2"
             type="file"
-            onChange={handleImageChange}
+            // onChange={handleImageChange}
           ></Input>
         </div>
       </div>

@@ -1,20 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, Settings, TruckIcon } from "lucide-react";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-
 import { useEffect, useState } from "react";
+const menuButtons = [
+  { label: "Food menu", icon: LayoutDashboard, path: "/admin/foodMenu" },
+  { label: "Orders", icon: TruckIcon, path: "/admin/Order" },
+  { label: "Settings", icon: Settings, path: "/admin/settings" },
+];
 export const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
   const [activeButton, setActiveButton] = useState<number | null>(null);
 
-  const menuButtons = [
-    { label: "Food menu", icon: LayoutDashboard, path: "/admin/foodMenu" },
-    { label: "Orders", icon: TruckIcon, path: "/admin/Order" },
-    { label: "Settings", icon: Settings, path: "/admin/settings" },
-  ];
   useEffect(() => {
     const index = menuButtons.findIndex((item) => item.path === pathname);
     setActiveButton(index);
@@ -30,7 +30,12 @@ export const Navbar = () => {
   return (
     <div className="w-[205px] h-full bg-white flex flex-col gap-10 px-5 py-9">
       <div className="w-[146px] h-11 flex gap-3">
-        <img src="/nomnomLogo.png" />
+        <Image
+          src="/nomnomLogo.png"
+          alt="NomNom logo"
+          width={44}
+          height={37}
+        ></Image>
         <div className="w-22 h-11">
           <p className="font-semibold text-5 text-black">NomNom</p>
           <p className="text-[12px] text-[#71717a]">Swift delivery</p>

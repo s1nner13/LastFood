@@ -1,6 +1,5 @@
 "use client";
 import { Foodmenu } from "./foodMenu/components/Foodmenu";
-import { Orders } from "./Order/components/OrdersContainer";
 
 export default function Home() {
   return (

@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { api } from "../../../../../../axios";
 
 const UPLOAD_PRESET = "guneegod";
 const CLOUD_NAME = "dqd01lbfy";
@@ -62,7 +63,7 @@ export const Addnewdish = ({
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    postFood();
+    postFood(values);
   }
 
   const uploadImage = async (file: File | undefined) => {
@@ -95,16 +96,12 @@ export const Addnewdish = ({
     }
   };
 
-  const postFood = async () => {
-    const values = form.getValues();
+  const postFood = async (values: z.infer<typeof formSchema>) => {
     try {
       const { foodname, foodPrice, ingredients, foodImage } = values;
-      console.log(foodImage);
-
       const imgUrl = await uploadImage(foodImage);
-      console.log("hi2");
 
-      await axios.post("http://localhost:3001/food/create-food", {
+      await api.post(`/food/create-food`, {
         foodName: foodname,
         price: Number(foodPrice),
         image: imgUrl,
@@ -195,7 +192,7 @@ export const Addnewdish = ({
             <FormField
               control={form.control}
               name="foodImage"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Food image</FormLabel>
                   <FormControl>

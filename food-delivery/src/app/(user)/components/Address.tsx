@@ -8,20 +8,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAuth } from "@/app/_providers/AuthProvider";
 import { toast } from "sonner";
+import { api } from "../../../../axios";
 export const Address = () => {
   const [address, setAddress] = useState("");
   const { user, setUser } = useAuth();
   const postAddress = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:3001/user/patch-user?userId=${user?._id}`,
-        { address }
-      );
+      const response = await api.patch(`/user/patch-user?userId=${user?._id}`, {
+        address,
+      });
       setAddress("");
       toast.success("Address updated");
       setUser(response.data);

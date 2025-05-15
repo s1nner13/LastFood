@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../../../../../../axios";
 type FoodOrderItem = {
   food: {
     _id: string;
@@ -34,9 +34,7 @@ export const Tables = () => {
 
   const getOrder = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/food-order/get-allorder"
-      );
+      const response = await api.get(`/food-order/get-allorder`);
       setOrders(response.data.orders);
     } catch (error) {
       console.error(error);
@@ -44,13 +42,10 @@ export const Tables = () => {
   };
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      const response = await axios.put(
-        "http://localhost:3001/food-order/update-status",
-        {
-          orderId,
-          status: newStatus,
-        }
-      );
+      const response = await api.put(`/food-order/update-status`, {
+        orderId,
+        status: newStatus,
+      });
       console.log("Status updated:", response.data);
       getOrder();
     } catch (error) {
